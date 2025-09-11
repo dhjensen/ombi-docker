@@ -1,0 +1,24 @@
+name: Ombi
+
+services:
+  ombi:
+    image: linuxserver/ombi:${OMBI_VERSION}
+    container_name: ombi
+    volumes:
+      - ombi-config:/config
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "127.0.0.1:3579:3579"
+    networks:
+      - nginx-proxy-manager_frontend
+    restart: unless-stopped
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+
+networks:
+  nginx-proxy-manager_frontend:
+    driver: bridge
+    external: true
+
+volumes:
+  ombi-config:
